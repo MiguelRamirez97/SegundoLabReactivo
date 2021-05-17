@@ -1,66 +1,79 @@
 package com.example.demo.model;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 
 @Document
 public class Card {
+
+    @NonNull
     private String title;
-    private LocalDateTime date;
+    @NonNull
+    private String date;
+    @NonNull
+    @Id
     private String number;
-    private Type type;
+    @NonNull
+    private String type;
+    @NonNull
     private String code;
 
-    public Card(){
-
-    }
-
-    public Card(String title, LocalDateTime date, String number, Type type, String code) {
+    public Card(String title, String number, String code) {
         this.title = title;
-        this.date = date;
+        this.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
         this.number = number;
-        this.type = type;
         this.code = code;
     }
 
+    @NonNull
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(@NonNull String title) {
         this.title = title;
     }
 
-    public LocalDateTime getDate() {
+    @NonNull
+    public String getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(@NonNull String date) {
         this.date = date;
     }
 
+    @NonNull
     public String getNumber() {
         return number;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(@NonNull String number) {
         this.number = number;
     }
 
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
-
+    @NonNull
     public String getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(@NonNull String code) {
         this.code = code;
     }
-}
+
+    @NonNull
+    public String getType() {
+        return type;
+    }
+
+    public void setType(@NonNull String type) {
+        this.type = type;
+    }
+
+    }
+
