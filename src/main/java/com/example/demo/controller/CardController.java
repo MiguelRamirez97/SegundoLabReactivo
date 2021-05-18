@@ -27,4 +27,9 @@ public class CardController {
     public Mono<Card> update(@RequestBody Mono<Card> cardMono) {
         return cardService.insertar(cardMono);
     }
+
+    @DeleteMapping("/deleteCard/{id}")
+    public Mono<Void> delete(@PathVariable("id") String id) {
+        return cardService.deleteById(id);
+    }
 }
