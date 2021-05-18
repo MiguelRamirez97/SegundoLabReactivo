@@ -5,6 +5,7 @@ import com.example.demo.model.validation;
 import com.example.demo.repo.CardRepository;
 import com.example.demo.service.CardService;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -42,14 +43,6 @@ class CardControllerTest {
     @CsvSource({"06123,debito,121"})
     void post(String number, String title,String code) {
 
-//        if(times == 0) {
-//            when(repository.findByName(name)).thenReturn(Mono.just(new Person()));
-//        }
-//
-//        if(times == 1) {
-//            when(repository.findByName(name)).thenReturn(Mono.empty());
-//        }
-
         var card = new Card(title,number,code);
         card.setType(validation.asignarType(number));
         var request = Mono.just(card);
@@ -67,5 +60,20 @@ class CardControllerTest {
 
         Assertions.assertEquals(number, card.getNumber());
 
+    }
+
+    @Test
+    void get() {
+        webTestClient.get()
+                .uri("/card/getCard/06123")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(Card.class)
+                .consumeWith(cardEntityExchangeResult -> {
+                    var card = cardEntityExchangeResult.getResponseBody();
+                    //assert card != null;
+                    //Assertions.assertEquals("VISA", card.getType());
+                    System.out.println(card);
+                });
     }
 }

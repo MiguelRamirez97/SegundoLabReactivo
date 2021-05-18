@@ -18,4 +18,8 @@ public class CardController {
         return cardService.insertar(cardMono);
     }
 
+    @GetMapping(value = "/getCard/{id}")
+    public Mono<Card> getCardById(@PathVariable("id") String id){
+        return cardService.getCardById(id);
+    }
 }

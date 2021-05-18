@@ -23,4 +23,8 @@ public class CardService {
                     return repository.save(card);
                 });
     }
+
+    public Mono<Card> getCardById(String id){
+        return repository.findById(id);
+    }
 }
