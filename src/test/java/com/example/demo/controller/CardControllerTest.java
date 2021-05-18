@@ -42,21 +42,20 @@ class CardControllerTest {
     @ParameterizedTest
     @CsvSource({"06123,debito,121"})
     void post(String number, String title,String code) {
-
-        var card = new Card(title,number,code);
-        card.setType(validation.asignarType(number));
-        var request = Mono.just(card);
+        Card prueba = new Card("debito", "06123","123");
+        prueba.setType(validation.asignarType(prueba.getNumber()));
+        var request = Mono.just(prueba);
+        when(repository.save(any(Card.class))).thenReturn(request);
         webTestClient.post()
-                .uri("/card")
+                .uri("/card/create")
                 .body(request, Card.class)
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody().isEmpty();
+                .expectBody().returnResult();
 
         verify(cardService).insertar(argumentCaptor.capture());
-        //verify(repository, times(times)).save(any());
 
-        card = argumentCaptor.getValue().block();
+        var card = argumentCaptor.getValue().block();
 
         Assertions.assertEquals(number, card.getNumber());
 
@@ -64,6 +63,9 @@ class CardControllerTest {
 
     @Test
     void get() {
+        Card prueba = new Card("debito", "06123","123");
+        prueba.setType(validation.asignarType(prueba.getNumber()));
+        when(repository.findById(anyString())).thenReturn(Mono.just(prueba));
         webTestClient.get()
                 .uri("/card/getCard/06123")
                 .exchange()
@@ -72,7 +74,7 @@ class CardControllerTest {
                 .consumeWith(cardEntityExchangeResult -> {
                     var card = cardEntityExchangeResult.getResponseBody();
                     //assert card != null;
-                    //Assertions.assertEquals("VISA", card.getType());
+                    Assertions.assertEquals("VISA", card.getType());
                     System.out.println(card);
                 });
     }
