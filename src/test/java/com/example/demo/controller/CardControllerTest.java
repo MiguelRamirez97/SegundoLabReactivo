@@ -123,4 +123,24 @@ class CardControllerTest {
         verify(cardService).listAll();
         verify(repository).findAll();
     }
+    @Test
+    void findByTipe() {
+        var list = Flux.just(
+                new Card("sodexo","060606","123"),
+                new Card("debito","121212","321")
+        );
+        when(repository.findByType("PRIME")).thenReturn(list);
+
+        webTestClient.get()
+                .uri("/card/getType/PRIME")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$[1].title").isEqualTo("debito")
+                .jsonPath("$[1].number").isEqualTo("121212")
+                .jsonPath("$[1].code").isEqualTo("321");
+
+        verify(cardService).getCardForType("PRIME");
+        verify(repository).findByType("PRIME");
+    }
 }

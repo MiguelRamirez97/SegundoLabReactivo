@@ -34,5 +34,9 @@ public class CardService {
 
     public Flux<Card> listAll() {
         return repository.findAll();
-        }
+    }
+
+    public Flux<Card> getCardForType(String type) {
+        return repository.findByType(type);
+    }
 }

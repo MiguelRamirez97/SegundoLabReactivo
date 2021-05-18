@@ -9,4 +9,5 @@ import reactor.core.publisher.Mono;
 
 @Repository
 public interface CardRepository extends ReactiveMongoRepository<Card,String> {
+          Flux<Card> findByType(String type);
 }
