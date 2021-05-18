@@ -32,4 +32,9 @@ public class CardController {
     public Mono<Void> delete(@PathVariable("id") String id) {
         return cardService.deleteById(id);
     }
+
+    @GetMapping(value = "/list")
+    public Flux<Card> list() {
+        return cardService.listAll();
+    }
 }

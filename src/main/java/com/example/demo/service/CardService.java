@@ -31,4 +31,8 @@ public class CardService {
     public Mono<Void> deleteById(String id) {
         return repository.deleteById(id);
     }
+
+    public Flux<Card> listAll() {
+        return repository.findAll();
+        }
 }
