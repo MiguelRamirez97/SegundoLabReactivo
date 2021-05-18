@@ -22,4 +22,9 @@ public class CardController {
     public Mono<Card> getCardById(@PathVariable("id") String id){
         return cardService.getCardById(id);
     }
+
+    @PutMapping(value = "/update")
+    public Mono<Card> update(@RequestBody Mono<Card> cardMono) {
+        return cardService.insertar(cardMono);
+    }
 }

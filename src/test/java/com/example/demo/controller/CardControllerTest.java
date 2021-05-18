@@ -78,4 +78,17 @@ class CardControllerTest {
                     System.out.println(card);
                 });
     }
+    @Test
+    void update() {
+        Card prueba = new Card("hola","03123","111");
+        prueba.setType(validation.asignarType(prueba.getNumber()));
+        var request = Mono.just(prueba);
+        when(repository.save(any(Card.class))).thenReturn(request);
+        webTestClient.put()
+                .uri("/card/update")
+                .body(request, Card.class)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody().returnResult();
+    }
 }
